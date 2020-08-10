@@ -1,19 +1,44 @@
 // Core
 import { useState } from 'react';
-// Helpers
-import { hasOwnProperty } from '../../../helpers/hasOwnProperty';
+// Types
+import { Cocktail } from '../../../types/cocktailsTypes';
 
-export const useAutocomplete = <T, Y extends PropertyKey>(data: Array<T>, property?: Y) => {
+export const useAutocomplete = <T>(
+  data: Array<T>,
+  property?: Partial<T>,
+) => {
+  // Declaring state
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<T[]>([]);
 
-  const findResults = (element: T) => {
-    if (property && hasOwnProperty(element, property)) {
-      return String(element[property])
-        .toLowerCase()
-        .includes(query.toLowerCase());
+  // Creating type
+  // for overloading function
+  // it will allow as to accept
+  // both simple string arrays
+  // and sort by specific properties
+
+  type Overloaded = {
+    (element: string): boolean;
+    (element: T): boolean;
+  };
+
+  // Simple helper function
+  const getValue = (value: string, target: string) => value
+    .toLowerCase()
+    .includes(target.toLowerCase());
+
+  // Getting keys
+  const getObjectKeys = (
+    criteria: Partial<Cocktail>,
+  ) => Object.keys(criteria) as (keyof Cocktail)[];
+
+  const findResults: Overloaded = (element: any) => {
+    if (property) {
+      const propertyValue = getObjectKeys(property);
+      return propertyValue.every((value) => getValue(element[value], query));
     }
-    return String(element).toLowerCase().includes(query.toLowerCase());
+    return getValue(element, query);
   };
 
   const handleSearch = (e: React.SyntheticEvent) => {

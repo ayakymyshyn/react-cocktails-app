@@ -17,6 +17,11 @@ import { SearchAutocomplete } from '../SearchAutocomplete/SearchAutocomplete';
 // Hooks
 import { useRandomCocktail } from './hooks/useRandomCocktail';
 
+// To Do
+// One more time review code
+// Separate CSS related code into other files
+// to make this more readble
+
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     flexGrow: 1,
