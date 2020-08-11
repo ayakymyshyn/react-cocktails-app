@@ -14,4 +14,8 @@ const TestHook = ({ hook, args = [] }: {hook: Hook, args?: any[]}) => {
   return null;
 };
 
-export const testHook = (hook: Hook) => render(<Provider store={store}><TestHook hook={hook} /></Provider>);
+export const testHook = (hook: Hook) => render(
+  <Provider store={store}>
+    <TestHook hook={hook} />
+  </Provider>,
+);

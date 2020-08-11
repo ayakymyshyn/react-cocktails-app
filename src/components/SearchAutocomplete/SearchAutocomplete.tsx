@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-export const SearchAutocomplete = ({ data }: {data: Cocktail[]}): ReactElement => {
+export const SearchAutocomplete = ({ data }: { data: Cocktail[] }): ReactElement => {
   const classes = useStyles();
   const { handleSearch, results, query } = useAutocomplete(data, { strDrink: '' });
   const inputRef = useRef(null);

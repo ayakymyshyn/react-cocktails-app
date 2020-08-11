@@ -41,7 +41,7 @@ export const useAutocomplete = <T>(
   const search = () => {
     const searchResults = data.filter(filterResults);
     setResults(searchResults);
-  }
+  };
 
   const handleSearch = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -49,5 +49,7 @@ export const useAutocomplete = <T>(
     search();
   };
 
-  return { handleSearch, results, query, setQuery, search };
+  return {
+    handleSearch, results, query, setQuery, search,
+  };
 };
