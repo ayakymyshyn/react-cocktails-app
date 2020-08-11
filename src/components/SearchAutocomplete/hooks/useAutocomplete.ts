@@ -1,14 +1,11 @@
 // Core
 import { useState } from 'react';
-// Types
-import { Cocktail } from '../../../types/cocktailsTypes';
 
 export const useAutocomplete = <T>(
   data: Array<T>,
   property?: Partial<T>,
 ) => {
   // Declaring state
-
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<T[]>([]);
 
@@ -30,10 +27,10 @@ export const useAutocomplete = <T>(
 
   // Getting keys
   const getObjectKeys = (
-    criteria: Partial<Cocktail>,
-  ) => Object.keys(criteria) as (keyof Cocktail)[];
+    criteria: Partial<T>,
+  ) => Object.keys(criteria) as (keyof T)[];
 
-  const findResults: Overloaded = (element: any) => {
+  const filterResults: Overloaded = (element: any) => {
     if (property) {
       const propertyValue = getObjectKeys(property);
       return propertyValue.every((value) => getValue(element[value], query));
@@ -41,12 +38,16 @@ export const useAutocomplete = <T>(
     return getValue(element, query);
   };
 
+  const search = () => {
+    const searchResults = data.filter(filterResults);
+    setResults(searchResults);
+  }
+
   const handleSearch = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     setQuery(target.value);
-    const searchResults = data.filter(findResults);
-    setResults(searchResults);
+    search();
   };
 
-  return { handleSearch, results, query };
+  return { handleSearch, results, query, setQuery, search };
 };
