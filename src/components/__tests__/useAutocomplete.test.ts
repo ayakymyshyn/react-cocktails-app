@@ -37,6 +37,15 @@ describe('useAutocomplete', () => {
     expect(result.current.results).toEqual(['Homer']);
   });
 
+  it('should return empty array if there is not matching', () => {
+    const { result } = renderHook(() => useAutocomplete(mockStringArray));
+    act(() => {
+      result.current.setQuery('Albert');
+      result.current.search();
+    });
+    expect(result.current.results).toHaveLength(0);
+  });
+
   it('should return array with objects which are matching search query', () => {
     const { result } = renderHook(() => useAutocomplete(mockObjectsArray, { job: '' }));
     act(() => {
